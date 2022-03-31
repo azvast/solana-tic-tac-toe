@@ -47,10 +47,10 @@ impl Game {
     pub const MAXIMUM_SIZE: usize = (32 * 2) + 1 + (3 * 3 * (1 + 1)) + (32 + 1);
 
     pub fn start(&mut self, players: [Pubkey; 2]) -> Result<()> {
-        require_eq(self.turn, 0, TicTacToeError::GameAlreadyStarted);
+        require_eq!(self.turn, 0, TicTacToeError::GameAlreadyStarted);
         self.players = players;
         self.turn = 1;
-        Ok(());
+        Ok(())
     }
 
     pub fn is_active(&self) -> bool {
@@ -74,8 +74,11 @@ impl Game {
                 column: 0..=2,
             } => match self.board[tile.row as usize][tile.column as usize] {
                 Some(_) => return Err(TicTacToeError::TileAlreadySet.into()),
-                None => self.board[tile.row as usize][tile.column as usize] = Some(Sign::from_usize(self.current_player_index()).unwrap());
-            }
+                None => {
+                    self.board[tile.row as usize][tile.column as usize] = Some(Sign::from_usize(self.current_player_index()).unwrap());
+                }
+            },
+            _ => return Err(TicTacToeError::TileOutOfBounds.into()),
         }
 
         self.update_state();
@@ -84,7 +87,7 @@ impl Game {
             self.turn += 1;
         }
 
-        Ok(());
+        Ok(())
     }
 
     fn is_winning_trio(&self, trio:[(usize, usize); 3]) -> bool {
@@ -160,7 +163,7 @@ pub enum Sign {
 #[derive(AnchorSerialize, AnchorDeserialize)]
 pub struct Tile {
     row: u8,
-    column: u8
+    column: u8,
 }
 
 #[error_code]
