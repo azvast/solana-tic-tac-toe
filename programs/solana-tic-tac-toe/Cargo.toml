@@ -1,0 +1,21 @@
+[package]
+name = "solana-tic-tac-toe"
+version = "0.1.0"
+description = "Created with Anchor"
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "solana_tic_tac_toe"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+
+[dependencies]
+anchor-lang = "0.23.0"
+num-traits = "0.2"
+num-derive = "0.3"
